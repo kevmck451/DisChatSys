@@ -1,0 +1,22 @@
+
+Write a fully functioning demo of any distributed system (e.g. event based, data based, vertical tiered, horizontal and vertical tiered, etc.) (visualization, backend with multiple systems, etc.). A complete working demo is required. There are many applications of these architectures so you would need to write your own back end and then model the application.
+
+
+
+
+
+
+create an application that demos some concept relevant to the topic of the course
+
+final report on that product that communicates why this product is important
+
+application must incorporate more than one network connected device and meet the basic requirements of a distributed system (not a parallel system)
+
+
+
+
+
+Things you definitely need to know
+- networking
+
+
