@@ -1,0 +1,7 @@
+Timeline:
+
+In the first week, I will focus on research and planning, gathering information on Web-Sockets, message brokers, and building a custom authentication system.
+By the end of the week, I aim to have a clear design for the system’s architecture. In weeks two and three, I will develop the custom message broker.
+This component will handle message routing and must be scalable across multiple servers.
+By week four, I will integrate WebSockets to enable real-time communication, completing the core communication functionality.
+For the mid-semester report, I plan to have the message broker and Web- Socket integration completed.
