@@ -52,3 +52,26 @@ Develop a scalable, distributed chat system with real-time communication using W
 - Test performance under load to ensure scalability.
 
 ---
+
+
+## Running
+
+- open terminal and cd into database and run the start_db file
+- run the message broker server
+- open however many terminals and run 3_test.py to do gui
+- or run main.py file
+
+
+## Updates
+
+- a list box under active users of rooms that are currently in use and then a user can click that room and switch to it that way as opposed to having to know the room number ahead of time
+- when switching rooms, the chat should clear and new history loaded in
+- can rooms be password projected?
+- setting up user database and logging in
+
+
+
+
+
+
+
