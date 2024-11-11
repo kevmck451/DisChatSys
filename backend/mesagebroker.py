@@ -12,18 +12,18 @@ class MessageBroker:
         self.db = self.client["chat_db"]
 
     async def save_message(self, room_id, message):
-        """Save message to MongoDB."""
+        #S ave message to MongoDB
         await self.db.messages.insert_one({"room_id": room_id, "message": message})
 
     async def load_history(self, room_id):
-        """Load message history from MongoDB."""
+        # Load message history from MongoDB
         history = []
         async for doc in self.db.messages.find({"room_id": room_id}).sort("_id", -1).limit(10):
             history.append(doc["message"])
         return history[::-1]  # Reverse to display oldest messages first
 
     async def connect(self, websocket, room_id, username):
-        """Add a client to a room."""
+        # Add a client to a room
         self.rooms[room_id].add(websocket)
         self.users[room_id].add(username)
         await self.broadcast(f"System: {username} joined the room.", room_id)
@@ -34,7 +34,7 @@ class MessageBroker:
 
 
     async def disconnect(self, websocket, room_id, username):
-            """Remove a client from a room."""
+            # Remove a client from a room
             self.rooms[room_id].discard(websocket)
             self.users[room_id].discard(username)
             await self.broadcast(f"System: {username} left the room.", room_id)
