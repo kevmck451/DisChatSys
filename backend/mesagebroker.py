@@ -32,7 +32,6 @@ class MessageBroker:
             await websocket.send(message)
         await self.update_user_list(room_id)
 
-
     async def disconnect(self, websocket, room_id, username):
             # Remove a client from a room
             self.rooms[room_id].discard(websocket)
@@ -44,11 +43,9 @@ class MessageBroker:
             else:
                 await self.update_user_list(room_id)
 
-
     async def update_user_list(self, room_id):
         user_list_message = f"Users in room: {', '.join(self.users[room_id])}"
         await self.broadcast(f"System: {user_list_message}", room_id)
-
 
     async def broadcast(self, message, room_id):
         disconnected_clients = []
@@ -77,16 +74,17 @@ class MessageBroker:
 
     async def handler(self, websocket, path):
         room_id = path.strip("/")
+        username = None  # Track the username for disconnects
         try:
             async for message in websocket:
                 data = json.loads(message)
+                username = data.get("username")  # Store the username for later use
                 await self.handle_message(websocket, room_id, data)
         except websockets.ConnectionClosed:
             pass
         finally:
-            username = "Unknown"  # Handle disconnect without data
-            if "username" in data:
-                username = data["username"]
+            # Ensure `username` is not None; fallback to "Unknown"
+            username = username or "Unknown"
             await self.disconnect(websocket, room_id, username)
 
 

@@ -63,24 +63,33 @@ class ChatClient:
             self.display_message(message)
 
     def display_message(self, message):
+        # Enable editing to make modifications
         self.chat_display.configure(state='normal')
+
+        # Check for specific conditions to clear the chat display
+        if "Room switched" in message or "Welcome to room" in message:  # Adjust conditions as per your logic
+            self.chat_display.delete("1.0", "end")  # Clear existing chat history
 
         # Check if the message contains the user list
         if message.startswith("System: Users in room:"):
+            user_list = message.split(": ")[2]  # Extract the user list portion
             self.user_list_display.configure(state='normal')
-            user_list = message.split(": ")[2]  # Extracts the user list portion
-            self.user_list_display.delete("0.0", "end")
-            self.user_list_display.insert("end", user_list)
+            self.user_list_display.delete("1.0", "end")  # Clear the current user list
+            self.user_list_display.insert("end", user_list)  # Update the user list
             self.user_list_display.configure(state='disabled')
         elif message.startswith("System:"):
             # Display other system messages
-            self.chat_display.insert("end", message + "\n")
+            timestamp = datetime.now().strftime('%I:%M %p')  # 12-hour format with AM/PM
+            self.chat_display.insert("end", f"[{timestamp}] {message}\n")
         else:
-            # Add a timestamp in 12-hour format with AM/PM
+            # Display normal chat messages
             timestamp = datetime.now().strftime('%I:%M %p')  # 12-hour format with AM/PM
             self.chat_display.insert("end", f"[{timestamp}] {message}\n")
 
+        # Auto-scroll to the latest message
         self.chat_display.yview("end")
+
+        # Disable editing after inserting messages
         self.chat_display.configure(state='disabled')
 
     async def connect_to_server(self):
@@ -99,6 +108,11 @@ class ChatClient:
 
     def connect(self):
         self.room_label.configure(text=f"Room: {self.room_entry.get()}")
+
+        self.chat_display.configure(state='normal')  # Enable editing
+        self.chat_display.delete("1.0", "end")  # Clear all text
+        self.chat_display.configure(state='disabled')  # Disable editing back
+
         asyncio.run_coroutine_threadsafe(self.connect_to_server(), self.loop)
 
     def send_message(self):
